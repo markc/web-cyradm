@@ -16,7 +16,7 @@ if ($authorized){
 		if (!empty($_GET['confirmed']) && empty($_GET['cancel'])){
 			include_once WC_BASE . '/lib/sieve-php.lib.php';
 			include_once WC_BASE . '/lib/sieve_strs.php';
-			$daemon = new sieve($CYRUS['HOST'],"2000", $CYRUS['ADMIN'], $CYRUS['PASS'], $_GET['username']);
+			$daemon = new sieve($CYRUS['HOST'],$CYRUS['SIEVEPORT'], $CYRUS['ADMIN'], $CYRUS['PASS'], $_GET['username']);
 				switch ($_GET['mode']){
 				case 'set':
 					if ($daemon->sieve_login()){
@@ -109,7 +109,7 @@ if ($authorized){
 			} elseif (empty($_GET['confirmed'])){
 				include_once WC_BASE . '/lib/sieve-php.lib.php';
 				include_once WC_BASE . '/lib/sieve_strs.php';
-				$daemon = new sieve($CYRUS['HOST'],"2000", $CYRUS['ADMIN'], $CYRUS['PASS'], $_GET['username']);
+				$daemon = new sieve($CYRUS['HOST'],$CYRUS['SIEVEPORT'], $CYRUS['ADMIN'], $CYRUS['PASS'], $_GET['username']);
     				$query = "SELECT * FROM `domain` WHERE domain_name='".$_GET['domain']."'";
 				$result = $handle->query($query);
 				$row = $result->fetchRow(DB_FETCHMODE_ASSOC, 0);

@@ -15,7 +15,7 @@ if ($ref!=$_SERVER['SCRIPT_FILENAME']){
 if ($authorized) {
 	include_once WC_BASE . '/lib/sieve-php.lib.php';
 	include_once WC_BASE . '/lib/sieve_strs.php'; 
-	$daemon = new sieve($CYRUS['HOST'],"2000", $CYRUS['ADMIN'], $CYRUS['PASS'], $_GET['username']);
+	$daemon = new sieve($CYRUS['HOST'],$CYRUS['SIEVEPORT'], $CYRUS['ADMIN'], $CYRUS['PASS'], $_GET['username']);
 	$cyr_conn = new cyradm;
 	$cyr_conn->imap_login();
 ?>

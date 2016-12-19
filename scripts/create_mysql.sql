@@ -104,7 +104,7 @@ CREATE TABLE search (
   search_id varchar(255) NOT NULL default '',
   search_sql text NOT NULL,
   perpage int(11) NOT NULL default '0',
-  timestamp timestamp(14) NOT NULL,
+  timestamp timestamp NOT NULL,
   PRIMARY KEY  (search_id),
   KEY search_id (search_id)
 ) TYPE=MyISAM;
@@ -127,7 +127,7 @@ CREATE TABLE log (
   msg text NOT NULL,
   user varchar(255) NOT NULL default '',
   host varchar(255) NOT NULL default '',
-  time datetime NOT NULL default '2000-00-00 00:00:00',
+  time datetime NOT NULL default '2000-01-01 00:00:00',
   pid varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;

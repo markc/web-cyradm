@@ -92,11 +92,32 @@ class cyradm
 		} else {
 			$_cmd = '. capability';
 			$result = $this->command($_cmd);
+            $starttls = false;
 			foreach($result as $resline) {
 				if (preg_match("/(RIGHTS=){1}[texk]{4}/i",$resline)) {
 					$this->allacl = 'lrswipkxtecda';
 				}
+                if (preg_match('/STARTTLS/i', $resline)) {
+                    $starttls = true;
+                }
 			}
+            if ($starttls) {
+                if ($this->command('. STARTTLS') === false) {
+                    return 1;
+                }
+                if (defined('STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT')) {
+                    $mode = STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT
+                        | STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
+                        | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+                } else {
+                    $mode = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+                }
+                stream_context_set_option($this->fp, 'ssl', 'verify_peer', false);
+                stream_context_set_option($this->fp, 'ssl', 'verify_peer_name', false);
+                if (!@stream_socket_enable_crypto($this->fp, true, $mode)) {
+                    return 1;
+                }
+            }
 			$_cmd = sprintf('. login "%s" "%s"',
 				$login, $passwd);
 			$this->command($_cmd);

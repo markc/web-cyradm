@@ -488,6 +488,9 @@ class sieve {
 
     if (!empty($this->capabilities['starttls'])) {
         fputs($this->fp,"STARTTLS\r\n");
+        if (!sieve::get_response()) {
+            return false;
+        }
         if (defined('STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT')) {
             $mode = STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT
                 | STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
@@ -495,7 +498,10 @@ class sieve {
         } else {
             $mode = STREAM_CRYPTO_METHOD_TLS_CLIENT;
         }
-        stream_socket_enable_crypto($this->fp, true, $mode);
+        if (!@stream_socket_enable_crypto($this->fp, true, $mode)) {
+            return false;
+        }
+        sieve::sieve_get_capability();
     }
 
 

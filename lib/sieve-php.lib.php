@@ -483,10 +483,20 @@ class sieve {
                 $this->capabilities[$this->cap_type][$this->module]=true;
         } /* end if */
         elseif(is_string($this->modules))
-            $this->capabilites[$this->cap_type][$this->module]=true;
+            $this->capabilities[$this->cap_type][$this->module]=true;
     }
 
-
+    if (!empty($this->capabilities['starttls'])) {
+        fputs($this->fp,"STARTTLS\r\n");
+        if (defined('STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT')) {
+            $mode = STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT
+                | STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
+                | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+        } else {
+            $mode = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+        }
+        stream_socket_enable_crypto($this->fp, true, $mode);
+    }
 
 
     if(sieve::status($this->line) == F_NO){		//here we should do some returning of error codes?

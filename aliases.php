@@ -18,10 +18,11 @@ if ($ref!=$_SERVER['SCRIPT_FILENAME']){
 		$alias_count = $handle->getOne($query);
 		$row_pos = (empty($_GET['row_pos']))?(0):($_GET['row_pos']);
 		
-		$prev = $row_pos -10;
-		$next = $row_pos +10;
+$alias_show=40;
+		$prev = $row_pos -$alias_show;
+		$next = $row_pos +$alias_show;
 		
-		if ($row_pos<10) {
+		if( $row_pos<$alias_show )
 			$prev_url = "#";
 		} else {
 			$prev_url = "index.php?action=aliases&domain=".$_GET['domain']."&row_pos=".$prev;
@@ -39,8 +40,8 @@ if ($ref!=$_SERVER['SCRIPT_FILENAME']){
 	<tr>
 		<td class="navi"><a class="navilink" href="index.php?action=newalias&domain=<?php print $_GET['domain']; ?>">
 		<?php print _("Add new alias");?></a></td>
-		<td class="navi"><a class="navilink" href="<?php print($prev_url); ?>"><?php print _("Previous 10 entries");?></a></td>
-		<td class="navi"><a class="navilink" href="<?php print($next_url); ?>"><?php print _("Next 10 entries");?></a></td>
+		<td class="navi"><a class="navilink" href="<?php print($prev_url); ?>"><?php print _("Previous $alias_show entries");?></a></td>
+		<td class="navi"><a class="navilink" href="<?php print($next_url); ?>"><?php print _("Next $alias_show entries");?></a></td>
 	</tr>
 	</table>
 	<p>
@@ -54,7 +55,7 @@ if ($ref!=$_SERVER['SCRIPT_FILENAME']){
 	<?php
 
 		$query = "SELECT DISTINCT(alias) FROM `virtual` WHERE username = '".$_GET['domain']."'";
-		$result = $handle->limitQuery($query,$row_pos,10);
+		$result = $handle->limitQuery($query,$row_pos, $alias_show);
 		$num_alias = $result->numRows();
 		$b = 0;
 		for($c = 0;$c < $num_alias;$c++) {

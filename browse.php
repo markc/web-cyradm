@@ -46,7 +46,7 @@ if ($ref!=$_SERVER['SCRIPT_FILENAME']){
 				}
 
 				$result = $handle->query($query);
-				if (MDB2::isError($result)) {
+				if (DB::isError($result)) {
 					die (_("Database error"));
 				}
 //				$result = $handle->limitQuery($query,$row_pos,$_SESSION['maxdisplay']);
@@ -159,7 +159,7 @@ if ($ref!=$_SERVER['SCRIPT_FILENAME']){
 						$cssrow="row2";
 					}
 
-					$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC,$c);
+					$row = $result->fetchRow(DB_FETCHMODE_ASSOC,$c);
 
 					?>
 					<tr class="<?php echo $cssrow;?>">

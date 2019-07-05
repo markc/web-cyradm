@@ -262,7 +262,7 @@ if ($authorized) {
 				// END Andreas Kreisl : freenames
 
 				$result = $handle->query($query);
-				if (!MDB2::isError($result)){
+				if (!DB::isError($result)){
 ?>
 					<h3>
 						<?php print _("Successfully added");?>:

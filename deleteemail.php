@@ -50,7 +50,7 @@ if ($authorized) {
 		} else {
 			$query = "DELETE FROM virtual WHERE alias='".$_GET['alias']."' AND username='".$_GET['username']."'";
 			$result = $handle->query($query);
-			if (MDB2::isError($result)) {
+			if (DB::isError($result)) {
 				die (_("Database error"));
 			}
 
